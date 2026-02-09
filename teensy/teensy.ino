@@ -24,6 +24,7 @@ void loop() {
 }
 
 void adjustParameter(String msg) {
+  Serial.println(msg);
   int sep = msg.indexOf('=');
   if (sep > 0) {
     String param = msg.substring(0, sep);
