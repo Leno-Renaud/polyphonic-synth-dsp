@@ -18,7 +18,7 @@ void setup() {
   // Paramètres initiaux
   faustDSP.setParamValue("/synth_10_sounds/volume", 0.7f);
   faustDSP.setParamValue("/synth_10_sounds/freq", 840.0f);
-  faustDSP.setParamValue("/synth_10_sounds/mode", 4.0f);  //  
+  faustDSP.setParamValue("/synth_10_sounds/mode", 2);  //  
 
 
   // strike au repos
