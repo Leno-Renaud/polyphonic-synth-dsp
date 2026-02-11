@@ -1,0 +1,234 @@
+:root {
+  --bg: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --card: #ffffff;
+  --soft: #f8fafc;
+  --focus: #2563eb;
+  --highlight: #7dd3fc
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: var(--bg);
+  color: var(--text);
+}
+
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 28px 20px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.card {
+  margin-top: 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.card h2 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.row + .row {
+  margin-top: 12px;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--soft);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.btn--primary {
+  background: var(--text);
+  border-color: var(--text);
+  color: white;
+}
+
+.btn--icon {
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+}
+
+.connectIcon {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+
+#connect.is-connected {
+  color: var(--highlight);
+}
+
+.text {
+  flex: 1 1 280px;
+  min-width: 220px;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.text:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+pre {
+  margin: 0;
+  background: var(--soft);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  height: 220px;
+  overflow-y: auto;
+  color: #0b1220;
+}
+
+.volume {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.volume__label {
+  display: grid;
+  gap: 2px;
+}
+
+.volume__title {
+  font-weight: 700;
+}
+
+.volume__value {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.knob {
+  width: 92px;
+  height: 92px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  user-select: none;
+  --angle: 0deg;
+  --arc: 0deg;
+}
+
+/* Dial NexusUI: invisible mais interactif */
+.knob > svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.knobWrap {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+
+.knobCaption {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #111;
+}
+
+.knobVisual {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.knobVisual__arc {
+  position: absolute;
+  inset: 4px;
+  border-radius: 999px;
+  /* arc de progression: 0 → 270° */
+  background: conic-gradient(from 225deg, #111 0deg var(--arc), transparent var(--arc) 360deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 6px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 6px));
+  opacity: 0.95;
+}
+
+.knobVisual__face {
+  width: 60px;
+  height: 60px;
+  border-radius: 999px;
+  background: #0b0b0d;
+  position: relative;
+}
+
+.knobVisual__dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #fff;
+  transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-22px);
+}
+
+.knob.is-active .knobVisual__dot {
+  background: var(--highlight);
+}
+
+.knob:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
