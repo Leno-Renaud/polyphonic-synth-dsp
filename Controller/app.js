@@ -58,7 +58,7 @@ const initKnob = (el) => {
   const max = num(el.dataset.max, 1);
   const step = num(el.dataset.step, 0.01);
   const decimals = num(el.dataset.decimals, 2);
-  const size = num(el.dataset.size, 92);
+  const size = num(el.dataset.size, 80); // Defaults to 80 if not set
   const valueEl = valueEls.get(param);
 
   const updateUi = (v) => {
@@ -103,5 +103,25 @@ const initKnob = (el) => {
   el.addEventListener("keydown", () => (interacted = true), true);
   dial.on("change", (v) => (updateUi(v), interacted && schedule(v)));
 };
+
+// Gestion bouton Strike
+if($("btn-strike")) {
+  $("btn-strike").onclick = async () => {
+     try {
+       const line = "strike=1\n";
+       if (await write(line)) log("➡️ Strike!");
+     } catch(e) { log("❌ Erreur strike: " + e); }
+  };
+}
+
+// Gestion bouton Strike
+if($("btn-strike")) {
+  $("btn-strike").onclick = async () => {
+     try {
+       const line = "strike=1\n";
+       if (await write(line)) log("➡️ Strike!");
+     } catch(e) { log("❌ Erreur strike: " + e); }
+  };
+}
 
 document.querySelectorAll(".knob[data-param]").forEach(initKnob);

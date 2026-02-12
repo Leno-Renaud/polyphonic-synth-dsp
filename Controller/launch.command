@@ -3,8 +3,8 @@ set -euo pipefail
 
 # ---- Config (ajuste si besoin) ----
 PORT=5173
-WIDTH=860
-HEIGHT=700
+WIDTH=1645
+HEIGHT=900
 URL="http://localhost:${PORT}/"
 
 cd "${0:A:h}"

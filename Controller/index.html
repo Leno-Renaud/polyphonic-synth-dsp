@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -8,12 +9,11 @@
 <body>
 
 <main class="page">
-  <header class="header">
-    <h1>Serial → Teensy</h1>
-    <p class="subtitle">Envoi de commandes via Web Serial</p>
-  </header>
-
-  <section class="card">
+  <!-- Header and connection controls -->
+  <div class="controls-overlay">
+    <header class="header">
+      <h1>Serial → Teensy</h1>
+    </header>
     <div class="row">
       <button id="connect" class="btn btn--icon" type="button" aria-label="Connecter le port série" title="Connecter le port série">
         <svg class="connectIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
@@ -21,45 +21,141 @@
           <path d="M13.9536 10C15.4596 11.5118 15.3239 14.0991 13.6506 15.7789L11.2268 18.2121L8.80299 20.6454C7.12969 22.3252 4.55237 22.4613 3.0464 20.9495C1.54043 19.4377 1.67609 16.8504 3.34939 15.1706L5.77323 12.7373" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </button>
-    </div>
-
-    <div class="row">
       <input id="message" class="text" type="text" placeholder="Message à envoyer">
       <button id="send" class="btn btn--primary" type="button">Envoyer</button>
     </div>
+    <div id="log" class="log-area"></div>
+  </div>
 
-    <div class="volume">
-      <div class="volume__label">
-        <div class="volume__title">Volume</div>
-        <div class="volume__value"><span class="knobValue" data-param="volume">0.50</span></div>
-      </div>
-      <div class="knobWrap">
-        <div
-          class="knob"
-          aria-label="Volume"
-          data-param="volume"
-          data-min="0"
-          data-max="1"
-          data-step="0.01"
-          data-value="0.5"
-          data-decimals="2"
-        >
-          <div class="knobVisual" aria-hidden="true">
-            <div class="knobVisual__arc"></div>
-            <div class="knobVisual__face">
-              <div class="knobVisual__dot"></div>
-            </div>
-          </div>
-        </div>
-        <div class="knobCaption">Volume</div>
+  <div class="fullscreen-bg">
+    <!-- Row 1 -->
+    <!-- Freq -->
+    <div class="knob-abs" style="top: 100px; left: 100px;">
+      <div class="knob-label">Freq</div>
+      <div class="knob-value"><span class="knobValue" data-param="freq">440.00</span></div>
+      <div class="knob" data-param="freq" data-min="27.5" data-max="4186" data-step="0.01" data-value="440" data-size="80">
+        <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
       </div>
     </div>
-  </section>
 
-  <section class="card">
-    <h2>Log</h2>
-    <pre id="log"></pre>
-  </section>
+    <!-- Gain (Volume) -->
+    <div class="knob-abs" style="top: 100px; left: 300px;">
+      <div class="knob-label">Volume</div>
+      <div class="knob-value"><span class="knobValue" data-param="volume">0.50</span></div>
+      <div class="knob" data-param="volume" data-min="0" data-max="1" data-step="0.001" data-value="0.5" data-size="80">
+        <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
+      </div>
+    </div>
+
+    <!-- Mode -->
+    <div class="knob-abs" style="top: 100px; left: 500px;">
+      <div class="knob-label">Mode</div>
+      <div class="knob-value"><span class="knobValue" data-param="mode">0</span></div>
+      <div class="knob" data-param="mode" data-min="0" data-max="9" data-step="1" data-value="0" data-decimals="0" data-size="80">
+        <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
+      </div>
+    </div>
+
+    <!-- Strike Button -->
+    <div class="knob-abs" style="top: 100px; left: 700px;">
+       <button id="btn-strike" class="btn-round" type="button">Strike</button>
+    </div>
+
+    <!-- Row 2 -->
+    <!-- Vibrato Rate -->
+    <div class="knob-abs" style="top: 300px; left: 100px;">
+      <div class="knob-label">Vib Rate</div>
+      <div class="knob-value"><span class="knobValue" data-param="Modulation/VibratoRate">5.0</span></div>
+      <div class="knob" data-param="Modulation/VibratoRate" data-min="0.1" data-max="20" data-step="0.1" data-value="5" data-size="80">
+        <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
+      </div>
+    </div>
+
+    <!-- Vibrato Depth -->
+    <div class="knob-abs" style="top: 300px; left: 300px;">
+      <div class="knob-label">Vib Depth</div>
+      <div class="knob-value"><span class="knobValue" data-param="Modulation/VibratoDepth">0.003</span></div>
+      <div class="knob" data-param="Modulation/VibratoDepth" data-min="0" data-max="0.02" data-step="0.0001" data-value="0.003" data-decimals="4" data-size="80">
+        <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
+      </div>
+    </div>
+
+    <!-- Low Cut -->
+    <div class="knob-abs" style="top: 300px; left: 500px;">
+      <div class="knob-label">Low Cut</div>
+      <div class="knob-value"><span class="knobValue" data-param="Filter/Lowpass">20000</span></div>
+      <div class="knob" data-param="Filter/Lowpass" data-min="200" data-max="20000" data-step="1" data-value="20000" data-decimals="0" data-size="80">
+        <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
+      </div>
+    </div>
+
+    <!-- High Cut -->
+    <div class="knob-abs" style="top: 300px; left: 700px;">
+      <div class="knob-label">High Cut</div>
+      <div class="knob-value"><span class="knobValue" data-param="Filter/Highpass">20</span></div>
+      <div class="knob" data-param="Filter/Highpass" data-min="20" data-max="2000" data-step="1" data-value="20" data-decimals="0" data-size="80">
+        <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
+      </div>
+    </div>
+
+    <!-- Row 3 -->
+    <!-- Pan -->
+    <div class="knob-abs" style="top: 500px; left: 100px;">
+      <div class="knob-label">Pan</div>
+      <div class="knob-value"><span class="knobValue" data-param="Spatial/Pan">0.50</span></div>
+      <div class="knob" data-param="Spatial/Pan" data-min="0" data-max="1" data-step="0.01" data-value="0.5" data-size="80">
+        <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
+      </div>
+    </div>
+
+    <!-- Wet/Dry -->
+    <div class="knob-abs" style="top: 500px; left: 300px;">
+      <div class="knob-label">Wet/Dry</div>
+      <div class="knob-value"><span class="knobValue" data-param="mix">0.50</span></div>
+      <div class="knob" data-param="mix" data-min="0" data-max="1" data-step="0.01" data-value="0.5" data-size="80">
+        <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
+      </div>
+    </div>
+
+    <!-- ADSR -->
+    <!-- Attack -->
+    <div class="knob-abs" style="top: 500px; left: 500px;">
+      <div class="knob-label">Attack</div>
+      <div class="knob-value"><span class="knobValue" data-param="attack">0.10</span></div>
+      <div class="knob" data-param="attack" data-min="0.01" data-max="5" data-step="0.01" data-value="0.1" data-size="80">
+        <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
+      </div>
+    </div>
+
+    <!-- Decay -->
+    <div class="knob-abs" style="top: 500px; left: 700px;">
+      <div class="knob-label">Decay</div>
+      <div class="knob-value"><span class="knobValue" data-param="decay">0.10</span></div>
+      <div class="knob" data-param="decay" data-min="0.01" data-max="5" data-step="0.01" data-value="0.1" data-size="80">
+        <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
+      </div>
+    </div>
+
+     <!-- Row 4 -->
+    <!-- Sustain -->
+    <div class="knob-abs" style="top: 700px; left: 100px;">
+      <div class="knob-label">Sustain</div>
+      <div class="knob-value"><span class="knobValue" data-param="sustain">0.50</span></div>
+      <div class="knob" data-param="sustain" data-min="0" data-max="1" data-step="0.01" data-value="0.5" data-size="80">
+        <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
+      </div>
+    </div>
+
+    <!-- Release -->
+    <div class="knob-abs" style="top: 700px; left: 300px;">
+      <div class="knob-label">Release</div>
+      <div class="knob-value"><span class="knobValue" data-param="release">1.00</span></div>
+      <div class="knob" data-param="release" data-min="0.01" data-max="10" data-step="0.01" data-value="1.0" data-size="80">
+        <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
+      </div>
+    </div>
+
+  </div>
 </main>
 
 <script src="https://unpkg.com/nexusui@2.0.10/dist/NexusUI.js" defer></script>

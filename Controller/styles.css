@@ -19,15 +19,102 @@ body {
 }
 
 .page {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 28px 20px;
+  /* remove centering */
+  max-width: none;
+  margin: 0;
+  padding: 0;
 }
 
-.header h1 {
+.fullscreen-bg {
+  position: relative;
+  width: 1645px;
+  height: 900px;
+  background: url('Ressources/background.png') no-repeat center center;
+  background-size: contain;
   margin: 0;
-  font-size: 22px;
-  font-weight: 700;
+}
+
+/* Control elements overlay */
+.controls-overlay {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 250px;
+}
+
+.controls-overlay .header h1 { font-size: 16px; margin: 0; }
+.controls-overlay .row { display: flex; gap: 6px; }
+.controls-overlay input.text { width: 100%; font-size: 12px; }
+.log-area { max-height: 80px; overflow-y: auto; font-family: monospace; font-size: 10px; border-top: 1px solid #eee; margin-top: 6px; }
+
+/* Absolute positioning for knobs */
+.knob-abs {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.knob-label {
+  color: #fff;
+  font-weight: bold;
+  font-size: 12px;
+  margin-bottom: 2px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.3);
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+.knob-value {
+  color: #ccc;
+  font-size: 11px;
+  margin-bottom: 2px;
+  font-variant-numeric: tabular-nums;
+  background: rgba(0,0,0,0.3);
+  padding: 0 3px;
+  border-radius: 2px;
+}
+
+/* Update knob size */
+.knob {
+  width: 80px;
+  height: 80px;
+  /* existing styles... */
+  position: relative;
+  display: grid;
+  place-items: center;
+  user-select: none;
+  --angle: 0deg;
+  --arc: 0deg;
+}
+
+/* Customize Round Button */
+.btn-round {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  background: #333;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.1s, background 0.1s;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.btn-round:active {
+  transform: scale(0.95);
+  background: #555;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
 .subtitle {
