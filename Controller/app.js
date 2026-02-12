@@ -113,15 +113,7 @@ if($("btn-strike")) {
      } catch(e) { log("❌ Erreur strike: " + e); }
   };
 }
-
 // Gestion bouton Strike
-if($("btn-strike")) {
-  $("btn-strike").onclick = async () => {
-     try {
-       const line = "strike=1\n";
-       if (await write(line)) log("➡️ Strike!");
-     } catch(e) { log("❌ Erreur strike: " + e); }
-  };
-}
+// (Supprimé)
 
 document.querySelectorAll(".knob[data-param]").forEach(initKnob);
