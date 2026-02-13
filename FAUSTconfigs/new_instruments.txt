@@ -48,7 +48,7 @@ env = strike : en.adsr(attack, decay, sustain, release);
 vibrato = freq * (1 + vibDepth * os.osc(vibRate));
 
 // =======================
-// NOUVEAUX INSTRUMENTS (REMPLACEMENT ICI)
+// NOUVEAUX INSTRUMENTS
 // =======================
 
 // 0. SUPERSAW
@@ -119,7 +119,7 @@ orchestra =
   ) * env;
 
 // =======================
-// SELECTEUR (MISE À JOUR ICI)
+// SELECTEUR
 // =======================
 
 synth =
@@ -141,7 +141,7 @@ synth =
 // Filtres globaux
 filtered = synth : fi.lowpass(2, lowCut) : fi.highpass(1, highCut);
 
-// Pas de reverb pour l'instant (on garde ça simple pour que ça marche)
+// Pas de reverb pour l'instant
 mix = filtered;
 
 // Pan stéréo simple
