@@ -1,128 +1,128 @@
-# Projet Son – Synthétiseur Teensy piloté par interface Web
+# Sound Project – Teensy Synthesizer Controlled via Web Interface
 
-Projet de synthèse sonore temps réel combinant :
-- un **synthétiseur embarqué** sur Teensy (généré avec **FAUST**),
-- une **interface de contrôle Web** (JavaScript) avec envoi des paramètres en **Serial**,
-- un pilotage **MIDI USB** pour le jeu des notes.
+Real-time sound synthesis project combining:
+- an **embedded synthesizer** on Teensy (generated with **FAUST**),
+- a **web control interface** (JavaScript) sending parameters through **Serial**,
+- **USB MIDI** control for note performance.
 
 ---
 
 ## 1) Description
-### Ce que j’ai réalisé
-- Développement d’une chaîne audio embarquée sur **Teensy + Audio Shield**.
-- Intégration d’un moteur de synthèse **FAUST** (10 presets/instruments).
-- Création d’une interface Web de contrôle (ADSR, filtres, vibrato, panoramique, volume).
-- Communication **Web Serial → Teensy** en temps réel pour l'échange des paramètres.
-- Gestion de la **polyphonie 4 voix** et du **MIDI NoteOn/NoteOff**.
+### What I built
+- Developed an embedded audio chain on **Teensy + Audio Shield**.
+- Integrated a **FAUST** synthesis engine (10 presets/instruments).
+- Built a web control interface (ADSR, filters, vibrato, panning, volume).
+- Implemented real-time **Web Serial → Teensy** parameter exchange.
+- Implemented **4-voice polyphony** and **MIDI NoteOn/NoteOff** handling.
 
-### Compétences mobilisées
-- C/C++ embarqué (Arduino/Teensy)
-- DSP / synthèse audio (FAUST)
-- JavaScript/HTML/CSS front-end (UI interactive)
-- Protocoles MIDI et série
-- Intégration hardware/software
+### Skills used
+- Embedded C/C++ (Arduino/Teensy)
+- DSP / audio synthesis (FAUST)
+- Front-end JavaScript/HTML/CSS (interactive UI)
+- MIDI and serial protocols
+- Hardware/software integration
 
 ---
 
-## 2) Aperçu visuel
+## 2) Visual Overview
 
-### Interface de contrôle Web
-![Interface Web](Ressources/JS_interface.png)
+### Web control interface
+![Web Interface](Ressources/JS_interface.png)
 
-### Setup global du projet
-![Setup du projet](Ressources/setup.jpg)
+### Full project setup
+![Project Setup](Ressources/setup.jpg)
 
-### Carte Teensy utilisée
+### Teensy board used
 ![Teensy](Ressources/teensy.jpg)
 
 ---
 
-## 3) Architecture du projet
+## 3) Project Architecture
 
-- `Arduino/synth/` : firmware principal Teensy (`synth.ino`) + code FAUST généré (`synth.cpp`, `synth.h`)
-- `Controller/` : interface Web (`index.html`, `app.js`, `styles.css`) + presets (`presets.json`)
-- `FAUSTconfigs/` : sources/configs FAUST (dont `new_instruments.txt`)
-- `Ressources/` : images de documentation
+- `Arduino/synth/`: main Teensy firmware (`synth.ino`) + generated FAUST code (`synth.cpp`, `synth.h`)
+- `Controller/`: web interface (`index.html`, `app.js`, `styles.css`) + presets (`presets.json`)
+- `FAUSTconfigs/`: FAUST sources/configs (including `new_instruments.txt`)
+- `Ressources/`: documentation images
 
-Flux principal :
-1. Le navigateur envoie les paramètres (`attack`, `decay`, `mode`, etc.) via **Serial**.
-2. Le Teensy applique ces paramètres sur les 4 voix du synthé.
-3. Les notes sont jouées via **MIDI USB**.
-4. La sortie audio stéréo passe par l’I2S / SGTL5000.
+Main flow:
+1. The browser sends parameters (`attack`, `decay`, `mode`, etc.) through **Serial**.
+2. Teensy applies these parameters to the 4 synth voices.
+3. Notes are played through **USB MIDI**.
+4. Stereo audio output is routed through I2S / SGTL5000.
 
 ---
 
-## 4) Configuration à mettre en place
+## 4) Setup and Configuration
 
-## 4.1 Prérequis matériel
-- 1x carte **Teensy** compatible Audio (ex: Teensy 4.x)
+## 4.1 Hardware requirements
+- 1x **Teensy** board compatible with Audio (e.g., Teensy 4.x)
 - 1x **Teensy Audio Shield (SGTL5000)**
-- Câble USB
-- Sortie casque/enceintes reliée à l’Audio Shield
-- Optionnel : clavier ou séquenceur **MIDI USB**
+- USB cable
+- Headphones/speakers connected to the Audio Shield
+- Optional: **USB MIDI** keyboard or sequencer
 
-## 4.2 Prérequis logiciel
+## 4.2 Software requirements
 - **Arduino IDE**
-- **Teensyduino** installé
-- Navigateur Chromium compatible **Web Serial** (Chrome / Edge)
-- Python 3 (ou n’importe quel serveur HTTP local) pour servir `Controller/`
+- **Teensyduino** installed
+- Chromium-based browser with **Web Serial** support (Chrome / Edge)
+- Python 3 (or any local HTTP server) to serve `Controller/`
 
-## 4.3 Flash du firmware Teensy
-1. Ouvrir `Arduino/synth/synth.ino` dans Arduino IDE.
-2. Sélectionner la carte Teensy correspondante.
-3. Vérifier que les librairies Teensy Audio sont disponibles.
-4. Compiler et téléverser sur la carte.
-5. Ouvrir le moniteur série (optionnel) pour vérifier le message `Teensy Ready`.
+## 4.3 Flashing the Teensy firmware
+1. Open `Arduino/synth/synth.ino` in Arduino IDE.
+2. Select the correct Teensy board.
+3. Make sure Teensy Audio libraries are available.
+4. Compile and upload to the board.
+5. Open Serial Monitor (optional) and check for the `Teensy Ready` message.
 
-## 4.4 Lancement de l’interface Web
-Depuis le dossier `Controller/`, lancer un serveur local :
+## 4.4 Launching the Web interface
+From the `Controller/` folder, start a local server:
 
 ```bash
 cd Controller
 python3 -m http.server 8000
 ```
 
-Puis ouvrir dans le navigateur :
+Then open in your browser:
 - `http://localhost:8000`
 
-## 4.5 Connexion et utilisation
-1. Cliquer sur **Connect** dans l’interface.
-2. Choisir le port série de la Teensy.
-3. Les presets sont chargés automatiquement.
-4. Jouer des notes en MIDI et ajuster les paramètres en direct.
+## 4.5 Connection and usage
+1. Click **Connect** in the interface.
+2. Select the Teensy serial port.
+3. Presets load automatically.
+4. Play MIDI notes and adjust parameters in real time.
 
 ---
 
-## 5) Paramètres contrôlables
+## 5) Controllable Parameters
 
-- **Mode / Preset** (0 à 9)
-- **ADSR** : Attack, Decay, Sustain, Release
-- **Modulation** : Vibrato Rate, Vibrato Depth
-- **Filtres** : Low Cut, High Cut
-- **Spatialisation** : Pan
-- **Niveau** : Volume
-- **FX** : Wet/Dry (selon implémentation active)
-
----
-
-## 6) Points techniques notables
-
-- Polyphonie 4 voix avec allocation simple et remplacement de voix si saturation.
-- Communication série texte `param=value` robuste et lisible.
-- Synthé généré par FAUST puis intégré dans une architecture Teensy Audio.
-- Interface UI dynamique avec gestion de presets JSON et synchronisation des contrôles.
+- **Mode / Preset** (0 to 9)
+- **ADSR**: Attack, Decay, Sustain, Release
+- **Modulation**: Vibrato Rate, Vibrato Depth
+- **Filters**: Low Cut, High Cut
+- **Spatialization**: Pan
+- **Level**: Volume
+- **FX**: Wet/Dry (depending on active implementation)
 
 ---
 
-## 7) Améliorations possibles
+## 6) Notable Technical Points
 
-- Ajouter une sauvegarde de presets utilisateur.
-- Intégrer reverb complète côté DSP.
-- Ajouter retour d’état Teensy → interface (bidirectionnel).
-- Étendre la gestion MIDI (CC, pitch bend, aftertouch).
+- 4-voice polyphony with simple voice allocation and replacement when saturated.
+- Robust and readable text serial protocol using `param=value` messages.
+- FAUST-generated synthesizer integrated into a Teensy Audio architecture.
+- Dynamic UI with JSON preset management and synchronized controls.
 
 ---
 
-## Auteur
+## 7) Possible Improvements
 
-Projet réalisé dans le cadre d’un projet pédagogique (TC) – groupe 66.
+- Add user preset save/load.
+- Integrate full DSP-side reverb.
+- Add Teensy → interface status feedback (bidirectional communication).
+- Extend MIDI handling (CC, pitch bend, aftertouch).
+
+---
+
+## Author
+
+Project completed as part of an academic engineering project (TC) – Group 66.
