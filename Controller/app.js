@@ -8,14 +8,20 @@ const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
 const presetNameEl = $("preset-name");
 const prevPresetBtn = $("preset-prev");
 const nextPresetBtn = $("preset-next");
+const newPresetNameEl = $("preset-new-name");
+const addPresetBtn = $("preset-add-btn");
 
 let presets = [];
 let currentPresetIndex = 0;
 
+const USER_PRESETS_STORAGE_KEY = "teensySynth.userPresets.v1";
+
 const controlBindings = new Map();
-const valueEls = new Map(
-  Array.from(document.querySelectorAll(".knobValue[data-param]")).map((el) => [el.dataset.param, el])
+const valueInputs = new Map(
+  Array.from(document.querySelectorAll(".param-input[data-param]")).map((el) => [el.dataset.param, el])
 );
+
+const paramMeta = new Map();
 
 const presetKeyToParam = {
   mode: "mode",
@@ -29,6 +35,27 @@ const presetKeyToParam = {
   ReverbAmount: "reverbAmount",
   VibratoRate: "vibRate",
   VibratoDepth: "vibDepth",
+};
+
+const paramToPresetKey = Object.fromEntries(Object.entries(presetKeyToParam).map(([k, v]) => [v, k]));
+
+const loadUserPresets = () => {
+  try {
+    const raw = sessionStorage.getItem(USER_PRESETS_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+};
+
+const saveUserPresets = (userPresets) => {
+  try {
+    sessionStorage.setItem(USER_PRESETS_STORAGE_KEY, JSON.stringify(userPresets));
+  } catch {
+    // ignore
+  }
 };
 
 const write = async (line) => {
@@ -50,9 +77,16 @@ const sendParamLine = async (param, value) => {
 
 const loadPresets = async () => {
   if (presets.length) return presets;
-  const response = await fetch("presets.json", { cache: "no-store" });
-  const data = await response.json();
-  presets = Array.isArray(data?.presets) ? data.presets : [];
+  let base = [];
+  try {
+    const response = await fetch("presets.json", { cache: "no-store" });
+    const data = await response.json();
+    base = Array.isArray(data?.presets) ? data.presets : [];
+  } catch {
+    base = [];
+  }
+  const user = loadUserPresets();
+  presets = [...base, ...user];
   return presets;
 };
 
@@ -66,6 +100,42 @@ const applyControlValue = (param, value) => {
   const binding = controlBindings.get(param);
   if (!binding) return;
   binding.setValue(value);
+};
+
+const getControlElByParam = (param) =>
+  document.querySelector(`.knob[data-param="${param}"], .slider[data-param="${param}"]`);
+
+const syncInputAttributes = (param) => {
+  const input = valueInputs.get(param);
+  const meta = paramMeta.get(param);
+  if (!input || !meta) return;
+  input.type = "number";
+  input.inputMode = "decimal";
+  input.min = `${meta.min}`;
+  input.max = `${meta.max}`;
+  input.step = `${meta.step}`;
+};
+
+const validateInputAndSend = async (input) => {
+  const param = input?.dataset?.param;
+  if (!param) return;
+  const meta = paramMeta.get(param);
+  const controlEl = getControlElByParam(param);
+  if (!meta || !controlEl) return;
+
+  const raw = input.value;
+  const numeric = Number(raw);
+  if (!Number.isFinite(numeric)) {
+    // revert to current control value
+    const current = num(controlEl.dataset.value, meta.min);
+    input.value = current.toFixed(meta.decimals);
+    return;
+  }
+
+  const clamped = clamp(numeric, meta.min, meta.max);
+  applyControlValue(param, clamped);
+  input.value = clamped.toFixed(meta.decimals);
+  await sendParamLine(param, clamped);
 };
 
 const applyPreset = async (index, sendSerial = true) => {
@@ -128,13 +198,16 @@ const initKnob = (el) => {
   const step = num(el.dataset.step, 0.01);
   const decimals = num(el.dataset.decimals, 2);
   const size = num(el.dataset.size, 80);
-  const valueEl = valueEls.get(param);
+  const valueInput = valueInputs.get(param);
   let silent = false;
+
+  paramMeta.set(param, { min, max, step, decimals });
+  syncInputAttributes(param);
 
   const updateUi = (v) => {
     const value = clamp(num(v, min), min, max);
     const norm = max === min ? 0 : (value - min) / (max - min);
-    valueEl && (valueEl.textContent = value.toFixed(decimals));
+    valueInput && (valueInput.value = value.toFixed(decimals));
     el.style.setProperty("--angle", `${norm * 270 - 135}deg`);
     el.style.setProperty("--arc", `${norm * 270}deg`);
     el.dataset.value = `${value}`;
@@ -182,13 +255,16 @@ const initSlider = (el) => {
   const decimals = num(el.dataset.decimals, 2);
   const sizeStr = el.dataset.size || "40,400";
   const [w, h] = sizeStr.split(",").map(s => num(s));
-  const valueEl = valueEls.get(param);
+  const valueInput = valueInputs.get(param);
   let silent = false;
+
+  paramMeta.set(param, { min, max, step, decimals });
+  syncInputAttributes(param);
 
   const updateUi = (v) => {
     const value = clamp(num(v, min), min, max);
     const norm = max === min ? 0 : (value - min) / (max - min);
-    valueEl && (valueEl.textContent = value.toFixed(decimals));
+    valueInput && (valueInput.value = value.toFixed(decimals));
     el.style.setProperty("--norm", norm);
     el.dataset.value = `${value}`;
     return value;
@@ -228,6 +304,16 @@ const initSlider = (el) => {
 document.querySelectorAll(".knob[data-param]").forEach(initKnob);
 document.querySelectorAll(".slider[data-param]").forEach(initSlider);
 
+// Validation des inputs (Entrée / blur)
+document.querySelectorAll(".param-input[data-param]").forEach((input) => {
+  input.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    input.blur();
+  });
+  input.addEventListener("blur", () => validateInputAndSend(input));
+});
+
 if (prevPresetBtn) {
   prevPresetBtn.addEventListener("click", () => goToPreset(-1));
 }
@@ -239,3 +325,44 @@ if (nextPresetBtn) {
 loadPresets()
   .then(() => applyPreset(0, false))
   .catch((e) => log("❌ Erreur chargement presets : " + e));
+
+const buildPresetFromCurrentUi = (name) => {
+  const preset = { name };
+
+  // Conserver le mode du preset courant si dispo (sinon index courant)
+  preset.mode = presets[currentPresetIndex]?.mode ?? currentPresetIndex;
+
+  for (const [param, presetKey] of Object.entries(paramToPresetKey)) {
+    if (presetKey === "name") continue;
+    if (presetKey === "mode") continue;
+    const controlEl = getControlElByParam(param);
+    if (!controlEl) continue;
+    const meta = paramMeta.get(param);
+    const value = num(controlEl.dataset.value, 0);
+
+    // garder un nombre (pas une string), arrondi selon decimals pour stabilité
+    const stable = meta ? Number(value.toFixed(meta.decimals)) : value;
+    preset[presetKey] = stable;
+  }
+
+  return preset;
+};
+
+if (addPresetBtn && newPresetNameEl) {
+  addPresetBtn.addEventListener("click", async () => {
+    await loadPresets();
+    const name = `${newPresetNameEl.value || ""}`.trim();
+    if (!name) return;
+
+    const newPreset = buildPresetFromCurrentUi(name);
+
+    const userPresets = loadUserPresets();
+    userPresets.push(newPreset);
+    saveUserPresets(userPresets);
+
+    presets.push(newPreset);
+    currentPresetIndex = presets.length - 1;
+    renderPresetLabel();
+    newPresetNameEl.value = "";
+  });
+}

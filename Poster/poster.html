@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Synthétiseur embarqué Teensy/FAUST contrôlé via navigateur (Groupe 66)</title>
+    <link rel="stylesheet" href="poster.css" />
+  </head>
+  <body>
+    <div id="poster" role="document" aria-label="Poster A0">
+      <header class="hero">
+        <div class="hero__inner">
+          <div class="hero__kicker">Projet Son — TC · Groupe 66</div>
+          <h1 class="hero__title">Synthétiseur embarqué Teensy/FAUST contrôlé via navigateur</h1>
+          <p class="hero__subtitle">Séparation notes (USB MIDI) / contrôle (Web Serial) pour itération temps réel de paramètres de synthèse sur microcontrôleur.</p>
+        </div>
+      </header>
+
+      <main class="grid" aria-label="Sections">
+        <section class="card" aria-labelledby="contexte">
+          <h2 id="contexte">Contexte</h2>
+          <p>Les synthétiseurs embarqués sur microcontrôleur doivent garantir un traitement audio temps réel stable, tout en restant suffisamment itérables pour ajuster rapidement la “couleur” sonore et les paramètres de jeu. Dans un cadre pédagogique et de prototypage, une difficulté récurrente consiste à concilier : (i) l’exécution DSP (synthèse) sous contrainte de ressources, (ii) une interaction musicien fiable (MIDI), et (iii) une interface de contrôle accessible, sans devoir recompiler/flash à chaque réglage.</p>
+          <p>Nous cherchons donc une architecture qui sépare clairement le flux « performance » (notes) du flux « contrôle » (paramètres), tout en restant simple à déployer.</p>
+        </section>
+
+        <section class="card" aria-labelledby="proposition">
+          <h2 id="proposition">Proposition</h2>
+          <p>Nous proposons un démonstrateur de synthèse polyphonique où :</p>
+          <ul>
+            <li>Le moteur de synthèse est décrit en FAUST puis intégré en C++ sur Teensy (écosystème Teensy Audio).</li>
+            <li>Les notes (NoteOn/NoteOff) sont reçues via USB MIDI et routées vers une polyphonie à 4 voix (allocation simple et remplacement en saturation).</li>
+            <li>Les paramètres continus (ADSR, filtres, vibrato, panoramique, volume, sélection d’instrument) sont pilotés depuis une interface Web (JavaScript) via Web Serial.</li>
+          </ul>
+          <p>Le contrôle s’appuie sur un protocole texte minimal de type <code>param=value</code> envoyé sur le port série, ce qui permet d’itérer sur les réglages en direct et de charger des états via des presets JSON côté navigateur.</p>
+        </section>
+
+        <section class="card" aria-labelledby="resultats">
+          <h2 id="resultats">Résultats</h2>
+          <p>Le système obtenu permet un jeu musical via USB MIDI tout en ajustant en temps réel les paramètres de synthèse depuis le navigateur, sans opération de reflash. Les changements de paramètres sont appliqués de manière cohérente aux voix actives, et la sélection d’instrument (mode) permet de comparer rapidement plusieurs timbres au sein du même pipeline embarqué.</p>
+          <p>Les principaux points observés sont :</p>
+          <ul>
+            <li>Une intégration claire des deux flux d’entrée (USB MIDI pour la performance, série pour le contrôle).</li>
+            <li>Une interface de contrôle réactive avec rappel d’états via presets.</li>
+            <li>Des limites fonctionnelles typiques d’un prototype : communication essentiellement unidirectionnelle (pas de retour d’état), stratégie de voice stealing basique, persistance des presets utilisateur limitée à la session.</li>
+          </ul>
+        </section>
+
+        <section class="card" aria-labelledby="perspectives">
+          <h2 id="perspectives">Perspectives</h2>
+          <p>Les suites naturelles du projet sont :</p>
+          <ul>
+            <li>Ajouter un canal de retour Teensy → interface (accusés de réception, état courant, télémétrie minimale).</li>
+            <li>Étendre le contrôle musical (MIDI CC, pitch bend, aftertouch) et formaliser une stratégie de voice stealing.</li>
+            <li>Renforcer la reproductibilité via une vraie persistance des presets et, si nécessaire, une campagne de mesures (latence de contrôle, stabilité, charge CPU/mémoire) pour caractériser le comportement en situation.</li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

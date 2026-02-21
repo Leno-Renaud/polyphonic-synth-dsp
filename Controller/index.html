@@ -23,7 +23,7 @@
         <div class="control-row control-row--vibrato">
           <div class="control-slot control-slot--knob">
             <div class="knob-label">Vib Depth</div>
-            <div class="knob-value"><span class="knobValue" data-param="vibDepth">0.003</span></div>
+            <div class="knob-value"><input class="param-input" data-param="vibDepth" value="0.003" aria-label="Valeur Vib Depth"></div>
             <div class="knob" data-param="vibDepth" data-min="0" data-max="0.02" data-step="0.0001" data-value="0.003" data-decimals="4" data-size="80">
               <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
             </div>
@@ -31,7 +31,7 @@
 
           <div class="control-slot control-slot--knob">
             <div class="knob-label">Vib Rate</div>
-            <div class="knob-value"><span class="knobValue" data-param="vibRate">5.0</span></div>
+            <div class="knob-value"><input class="param-input" data-param="vibRate" value="5.0" aria-label="Valeur Vib Rate"></div>
             <div class="knob" data-param="vibRate" data-min="0.1" data-max="20" data-step="0.1" data-value="5" data-size="80">
               <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
             </div>
@@ -44,7 +44,7 @@
         <div class="control-row control-row--wetdry">
           <div class="control-slot control-slot--knob">
             <div class="knob-label">Wet/Dry</div>
-            <div class="knob-value"><span class="knobValue" data-param="wetDry">0.50</span></div>
+            <div class="knob-value"><input class="param-input" data-param="wetDry" value="0.50" aria-label="Valeur Wet/Dry"></div>
             <div class="knob" data-param="wetDry" data-min="0" data-max="1" data-step="0.01" data-value="0.5" data-size="80">
               <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
             </div>
@@ -57,7 +57,7 @@
         <div class="control-row control-row--env">
           <div class="control-slot control-slot--knob">
             <div class="knob-label">Attack</div>
-            <div class="knob-value"><span class="knobValue" data-param="attack">0.10</span></div>
+            <div class="knob-value"><input class="param-input" data-param="attack" value="0.10" aria-label="Valeur Attack"></div>
             <div class="knob" data-param="attack" data-min="0.01" data-max="5" data-step="0.01" data-value="0.1" data-size="80">
               <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
             </div>
@@ -65,7 +65,7 @@
 
           <div class="control-slot control-slot--knob">
             <div class="knob-label">Decay</div>
-            <div class="knob-value"><span class="knobValue" data-param="decay">0.10</span></div>
+            <div class="knob-value"><input class="param-input" data-param="decay" value="0.10" aria-label="Valeur Decay"></div>
             <div class="knob" data-param="decay" data-min="0.01" data-max="5" data-step="0.01" data-value="0.1" data-size="80">
               <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
             </div>
@@ -73,7 +73,7 @@
 
           <div class="control-slot control-slot--knob">
             <div class="knob-label">Sustain</div>
-            <div class="knob-value"><span class="knobValue" data-param="sustain">0.50</span></div>
+            <div class="knob-value"><input class="param-input" data-param="sustain" value="0.50" aria-label="Valeur Sustain"></div>
             <div class="knob" data-param="sustain" data-min="0" data-max="1" data-step="0.01" data-value="0.5" data-size="80">
               <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
             </div>
@@ -81,7 +81,7 @@
 
           <div class="control-slot control-slot--knob">
             <div class="knob-label">Release</div>
-            <div class="knob-value"><span class="knobValue" data-param="release">1.00</span></div>
+            <div class="knob-value"><input class="param-input" data-param="release" value="1.00" aria-label="Valeur Release"></div>
             <div class="knob" data-param="release" data-min="0.01" data-max="10" data-step="0.01" data-value="1.0" data-size="80">
               <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
             </div>
@@ -96,6 +96,10 @@
         <div class="mode-center">
           <div class="knob-label">Preset</div>
           <div id="preset-name" class="mode-name">Mode 0</div>
+          <div class="preset-add" aria-label="Ajouter un preset">
+            <input id="preset-new-name" class="preset-add__input" type="text" placeholder="Nom du preset" aria-label="Nom du nouveau preset">
+            <button id="preset-add-btn" class="preset-add__btn" type="button">Add preset</button>
+          </div>
         </div>
         <button id="preset-next" class="mode-btn" type="button" aria-label="Preset suivant">&gt;</button>
       </div>
@@ -106,7 +110,7 @@
       <div class="control-row control-row--filters">
         <div class="control-slot control-slot--slider">
           <div class="knob-label">Low Cut</div>
-          <div class="knob-value"><span class="knobValue" data-param="lowCut">20000</span></div>
+          <div class="knob-value"><input class="param-input" data-param="lowCut" value="20000" aria-label="Valeur Low Cut"></div>
           <div class="slider" data-param="lowCut" data-min="200" data-max="20000" data-step="1" data-value="20000" data-decimals="0" data-size="40,660">
             <div class="sliderVisual">
               <div class="sliderVisual__track"></div>
@@ -117,7 +121,7 @@
 
         <div class="control-slot control-slot--slider">
           <div class="knob-label">High Cut</div>
-          <div class="knob-value"><span class="knobValue" data-param="highCut">20</span></div>
+          <div class="knob-value"><input class="param-input" data-param="highCut" value="20" aria-label="Valeur High Cut"></div>
           <div class="slider" data-param="highCut" data-min="20" data-max="2000" data-step="1" data-value="20" data-decimals="0" data-size="40,660">
             <div class="sliderVisual">
               <div class="sliderVisual__track"></div>
@@ -131,7 +135,7 @@
     <div class="right-rail">
       <div class="control-slot control-slot--bare">
         <div class="knob-label">Pan</div>
-        <div class="knob-value"><span class="knobValue" data-param="pan">0.50</span></div>
+        <div class="knob-value"><input class="param-input" data-param="pan" value="0.50" aria-label="Valeur Pan"></div>
         <div class="knob" data-param="pan" data-min="0" data-max="1" data-step="0.01" data-value="0.5" data-size="80">
           <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
         </div>
@@ -139,7 +143,7 @@
 
       <div class="control-slot control-slot--bare">
         <div class="knob-label">Volume</div>
-        <div class="knob-value"><span class="knobValue" data-param="volume">0.50</span></div>
+        <div class="knob-value"><input class="param-input" data-param="volume" value="0.50" aria-label="Valeur Volume"></div>
         <div class="slider" data-param="volume" data-min="0" data-max="1" data-step="0.001" data-value="0.5" data-size="40,620">
           <div class="sliderVisual">
             <div class="sliderVisual__track"></div>

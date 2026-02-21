@@ -75,7 +75,7 @@ body {
     left: 470px;
     top: 58px;
     width: 500px;
-    height: 75px;
+    height: 108px;
 }
 
 .block-filter {
@@ -286,6 +286,79 @@ body {
   color: #374151;
   font-variant-numeric: tabular-nums;
   min-height: 1em;
+}
+
+.param-input {
+  width: 76px;
+  padding: 4px 6px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: var(--surface);
+  box-shadow:
+    inset 4px 4px 8px var(--shadow-dark),
+    inset -4px -4px 8px var(--shadow-light);
+  color: var(--text);
+  text-align: center;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+.param-input:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.param-input::-webkit-outer-spin-button,
+.param-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.preset-add {
+  margin-top: 6px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.preset-add__input {
+  width: 100%;
+  min-width: 0;
+  padding: 6px 8px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: var(--surface);
+  box-shadow:
+    inset 4px 4px 8px var(--shadow-dark),
+    inset -4px -4px 8px var(--shadow-light);
+  color: var(--text);
+  font: inherit;
+}
+input::placeholder {
+    color: #b1b1b1;
+}
+
+.preset-add__input:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.preset-add__btn {
+  appearance: none;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.preset-add__btn:active {
+  box-shadow:
+    inset 3px 3px 6px var(--shadow-dark),
+    inset -3px -3px 6px var(--shadow-light);
 }
 
 .knob {
