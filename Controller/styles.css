@@ -75,7 +75,20 @@ body {
     left: 470px;
     top: 58px;
     width: 500px;
-    height: 108px;
+    height: 75px;
+}
+
+.block-preset-add {
+  left: 470px;
+  bottom: 54px;
+  width: 500px;
+  height: 76px;
+  display: grid;
+  align-content: center;
+}
+
+.block-preset-add .preset-add {
+  margin-top: 0;
 }
 
 .block-filter {
@@ -102,10 +115,6 @@ body {
 
 .control-row--vibrato {
   justify-content: space-between;
-}
-
-.control-row--mode {
-  justify-content: center;
 }
 
 .mode-switcher {
@@ -335,8 +344,9 @@ body {
   color: var(--text);
   font: inherit;
 }
-input::placeholder {
-    color: #b1b1b1;
+
+.preset-add__input::placeholder {
+  color: #b1b1b1;
 }
 
 .preset-add__input:focus-visible {

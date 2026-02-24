@@ -5,6 +5,10 @@ const log = (msg) => console.log(msg);
 const num = (v, d = 0) => (Number.isFinite(Number(v)) ? Number(v) : d);
 const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
 
+const encoder = new TextEncoder();
+
+const connectBtn = $("connect");
+
 const presetNameEl = $("preset-name");
 const prevPresetBtn = $("preset-prev");
 const nextPresetBtn = $("preset-next");
@@ -59,8 +63,11 @@ const saveUserPresets = (userPresets) => {
 };
 
 const write = async (line) => {
-  if (!writer) return (log("⚠️ Pas de port connecté"), false);
-  await writer.write(new TextEncoder().encode(line));
+  if (!writer) {
+    log("Pas de port connecté");
+    return false;
+  }
+  await writer.write(encoder.encode(line));
   return true;
 };
 
@@ -71,7 +78,7 @@ const sendParamLine = async (param, value) => {
   try {
     if (await write(line)) log("➡️ Envoyé : " + line.trim());
   } catch (e) {
-    log("❌ Erreur envoi " + param + " : " + e);
+    log("Erreur envoi " + param + " : " + e);
   }
 };
 
@@ -164,19 +171,19 @@ const goToPreset = async (delta) => {
   await applyPreset(currentPresetIndex + delta, true);
 };
 
-$("connect").onclick = async () => {
+if (connectBtn) connectBtn.onclick = async () => {
   try {
-    $("connect").classList.remove("is-connected");
+    connectBtn.classList.remove("is-connected");
     const port = await navigator.serial.requestPort();
     await port.open({ baudRate: 9600 });
     writer = port.writable.getWriter();
-    log("✅ Port série connecté");
-    $("connect").classList.add("is-connected");
+    log("Port série connecté");
+    connectBtn.classList.add("is-connected");
     await loadPresets();
     await applyPreset(0, true);
   } catch (e) {
-    $("connect").classList.remove("is-connected");
-    log("❌ Erreur connexion : " + e);
+    connectBtn.classList.remove("is-connected");
+    log("Erreur connexion : " + e);
   }
 };
 
@@ -324,7 +331,7 @@ if (nextPresetBtn) {
 
 loadPresets()
   .then(() => applyPreset(0, false))
-  .catch((e) => log("❌ Erreur chargement presets : " + e));
+  .catch((e) => log("Erreur chargement presets : " + e));
 
 const buildPresetFromCurrentUi = (name) => {
   const preset = { name };
