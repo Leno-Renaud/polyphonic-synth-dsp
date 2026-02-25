@@ -39,19 +39,6 @@
         </div>
       </div>
 
-      <div class="sub-block">
-        <div class="sub-title">Wet / Dry</div>
-        <div class="control-row control-row--wetdry">
-          <div class="control-slot control-slot--knob">
-            <div class="knob-label">Wet/Dry</div>
-            <div class="knob-value"><input class="param-input" data-param="wetDry" value="0.50" aria-label="Valeur Wet/Dry"></div>
-            <div class="knob" data-param="wetDry" data-min="0" data-max="1" data-step="0.01" data-value="0.5" data-size="80">
-              <div class="knobVisual"><div class="knobVisual__arc"></div><div class="knobVisual__face"><div class="knobVisual__dot"></div></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="sub-block sub-block--adsr">
         <div class="sub-title">ADSR</div>
         <div class="control-row control-row--env">
@@ -96,12 +83,15 @@
         <div class="mode-center">
           <div class="knob-label">Preset</div>
           <div id="preset-name" class="mode-name">Mode 0</div>
-          <div class="preset-add" aria-label="Ajouter un preset">
-            <input id="preset-new-name" class="preset-add__input" type="text" placeholder="Nom du preset" aria-label="Nom du nouveau preset">
-            <button id="preset-add-btn" class="preset-add__btn" type="button">Add preset</button>
-          </div>
         </div>
         <button id="preset-next" class="mode-btn" type="button" aria-label="Preset suivant">&gt;</button>
+      </div>
+    </div>
+
+    <div class="panel-block block-preset-add" aria-label="Ajouter un preset">
+      <div class="preset-add">
+        <input id="preset-new-name" class="preset-add__input" type="text" placeholder="Nom du preset" aria-label="Nom du nouveau preset">
+        <button id="preset-add-btn" class="preset-add__btn" type="button">Save preset</button>
       </div>
     </div>
 
@@ -141,7 +131,7 @@
         </div>
       </div>
 
-      <div class="control-slot control-slot--bare">
+      <div class="control-slot control-slot--bare control-slot--volume">
         <div class="knob-label">Volume</div>
         <div class="knob-value"><input class="param-input" data-param="volume" value="0.50" aria-label="Valeur Volume"></div>
         <div class="slider" data-param="volume" data-min="0" data-max="1" data-step="0.001" data-value="0.5" data-size="40,620">

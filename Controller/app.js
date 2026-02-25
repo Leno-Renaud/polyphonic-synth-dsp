@@ -5,6 +5,10 @@ const log = (msg) => console.log(msg);
 const num = (v, d = 0) => (Number.isFinite(Number(v)) ? Number(v) : d);
 const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
 
+const encoder = new TextEncoder();
+
+const connectBtn = $("connect");
+
 const presetNameEl = $("preset-name");
 const prevPresetBtn = $("preset-prev");
 const nextPresetBtn = $("preset-next");
@@ -31,8 +35,6 @@ const presetKeyToParam = {
   Release: "release",
   Lowpass: "lowCut",
   Highpass: "highCut",
-  WetDry: "wetDry",
-  ReverbAmount: "reverbAmount",
   VibratoRate: "vibRate",
   VibratoDepth: "vibDepth",
 };
@@ -41,7 +43,7 @@ const paramToPresetKey = Object.fromEntries(Object.entries(presetKeyToParam).map
 
 const loadUserPresets = () => {
   try {
-    const raw = sessionStorage.getItem(USER_PRESETS_STORAGE_KEY);
+    const raw = localStorage.getItem(USER_PRESETS_STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? parsed : [];
@@ -52,15 +54,18 @@ const loadUserPresets = () => {
 
 const saveUserPresets = (userPresets) => {
   try {
-    sessionStorage.setItem(USER_PRESETS_STORAGE_KEY, JSON.stringify(userPresets));
+    localStorage.setItem(USER_PRESETS_STORAGE_KEY, JSON.stringify(userPresets));
   } catch {
     // ignore
   }
 };
 
 const write = async (line) => {
-  if (!writer) return (log("⚠️ Pas de port connecté"), false);
-  await writer.write(new TextEncoder().encode(line));
+  if (!writer) {
+    log("Pas de port connecté");
+    return false;
+  }
+  await writer.write(encoder.encode(line));
   return true;
 };
 
@@ -69,9 +74,9 @@ const sendParamLine = async (param, value) => {
   const serialized = Number.isFinite(numeric) ? `${numeric}` : `${value}`;
   const line = `${param}=${serialized}\n`;
   try {
-    if (await write(line)) log("➡️ Envoyé : " + line.trim());
+    if (await write(line)) log("Envoyé : " + line.trim());
   } catch (e) {
-    log("❌ Erreur envoi " + param + " : " + e);
+    log("Erreur envoi " + param + " : " + e);
   }
 };
 
@@ -164,19 +169,19 @@ const goToPreset = async (delta) => {
   await applyPreset(currentPresetIndex + delta, true);
 };
 
-$("connect").onclick = async () => {
+if (connectBtn) connectBtn.onclick = async () => {
   try {
-    $("connect").classList.remove("is-connected");
+    connectBtn.classList.remove("is-connected");
     const port = await navigator.serial.requestPort();
     await port.open({ baudRate: 9600 });
     writer = port.writable.getWriter();
-    log("✅ Port série connecté");
-    $("connect").classList.add("is-connected");
+    log("Port série connecté");
+    connectBtn.classList.add("is-connected");
     await loadPresets();
     await applyPreset(0, true);
   } catch (e) {
-    $("connect").classList.remove("is-connected");
-    log("❌ Erreur connexion : " + e);
+    connectBtn.classList.remove("is-connected");
+    log("Erreur connexion : " + e);
   }
 };
 
@@ -254,7 +259,13 @@ const initSlider = (el) => {
   const step = num(el.dataset.step, 0.01);
   const decimals = num(el.dataset.decimals, 2);
   const sizeStr = el.dataset.size || "40,400";
-  const [w, h] = sizeStr.split(",").map(s => num(s));
+  const [fallbackW, fallbackH] = sizeStr.split(",").map((s) => num(s));
+  const style = window.getComputedStyle(el);
+  const cssW = Math.round(parseFloat(style.width));
+  const cssH = Math.round(parseFloat(style.height));
+  const rect = el.getBoundingClientRect();
+  const w = (Number.isFinite(cssW) && cssW > 0 ? cssW : Math.round(rect.width)) || fallbackW;
+  const h = (Number.isFinite(cssH) && cssH > 0 ? cssH : Math.round(rect.height)) || fallbackH;
   const valueInput = valueInputs.get(param);
   let silent = false;
 
@@ -301,35 +312,49 @@ const initSlider = (el) => {
   });
 };
 
-document.querySelectorAll(".knob[data-param]").forEach(initKnob);
-document.querySelectorAll(".slider[data-param]").forEach(initSlider);
+const initUiControls = () => {
+  document.querySelectorAll(".knob[data-param]").forEach(initKnob);
+  document.querySelectorAll(".slider[data-param]").forEach(initSlider);
 
-// Validation des inputs (Entrée / blur)
-document.querySelectorAll(".param-input[data-param]").forEach((input) => {
-  input.addEventListener("keydown", (e) => {
-    if (e.key !== "Enter") return;
-    e.preventDefault();
-    input.blur();
+  // Validation des inputs (Entrée / blur)
+  document.querySelectorAll(".param-input[data-param]").forEach((input) => {
+    input.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter") return;
+      e.preventDefault();
+      input.blur();
+    });
+    input.addEventListener("blur", () => validateInputAndSend(input));
   });
-  input.addEventListener("blur", () => validateInputAndSend(input));
-});
 
-if (prevPresetBtn) {
-  prevPresetBtn.addEventListener("click", () => goToPreset(-1));
+  if (prevPresetBtn) {
+    prevPresetBtn.addEventListener("click", () => goToPreset(-1));
+  }
+
+  if (nextPresetBtn) {
+    nextPresetBtn.addEventListener("click", () => goToPreset(1));
+  }
+
+  loadPresets()
+    .then(() => applyPreset(0, false))
+    .catch((e) => log("Erreur chargement presets : " + e));
+};
+
+// Attendre que les styles soient appliqués avant de mesurer les sliders
+if (document.readyState === "complete") {
+  requestAnimationFrame(initUiControls);
+} else {
+  window.addEventListener(
+    "load",
+    () => {
+      requestAnimationFrame(initUiControls);
+    },
+    { once: true }
+  );
 }
-
-if (nextPresetBtn) {
-  nextPresetBtn.addEventListener("click", () => goToPreset(1));
-}
-
-loadPresets()
-  .then(() => applyPreset(0, false))
-  .catch((e) => log("❌ Erreur chargement presets : " + e));
 
 const buildPresetFromCurrentUi = (name) => {
   const preset = { name };
 
-  // Conserver le mode du preset courant si dispo (sinon index courant)
   preset.mode = presets[currentPresetIndex]?.mode ?? currentPresetIndex;
 
   for (const [param, presetKey] of Object.entries(paramToPresetKey)) {
@@ -339,8 +364,6 @@ const buildPresetFromCurrentUi = (name) => {
     if (!controlEl) continue;
     const meta = paramMeta.get(param);
     const value = num(controlEl.dataset.value, 0);
-
-    // garder un nombre (pas une string), arrondi selon decimals pour stabilité
     const stable = meta ? Number(value.toFixed(meta.decimals)) : value;
     preset[presetKey] = stable;
   }
