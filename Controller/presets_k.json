@@ -11,8 +11,7 @@
     "highCut": 100,
     "pan": 0.5,
     "volume": 0.6,
-    "wetDry": 0.0,
-    "reverb": 0.3
+    "wetDry": 0.0
   },
 
   "celestial": {
@@ -27,8 +26,7 @@
     "highCut": 80,
     "pan": 0.5,
     "volume": 0.5,
-    "wetDry": 0.0,
-    "reverb": 0.4
+    "wetDry": 0.0
   },
 
   "cyberbass": {
@@ -43,8 +41,7 @@
     "highCut": 40,
     "pan": 0.5,
     "volume": 0.7,
-    "wetDry": 0.0,
-    "reverb": 0.2
+    "wetDry": 0.0
   },
 
   "crystal": {
@@ -59,8 +56,7 @@
     "highCut": 120,
     "pan": 0.5,
     "volume": 0.55,
-    "wetDry": 0.0,
-    "reverb": 0.3
+    "wetDry": 0.0
   },
 
   "vaporwave": {
@@ -75,8 +71,7 @@
     "highCut": 150,
     "pan": 0.5,
     "volume": 0.5,
-    "wetDry": 0.0,
-    "reverb": 0.5
+    "wetDry": 0.0
   },
 
   "abyss": {
@@ -91,8 +86,7 @@
     "highCut": 50,
     "pan": 0.5,
     "volume": 0.5,
-    "wetDry": 0.0,
-    "reverb": 0.4
+    "wetDry": 0.0
   },
 
   "koto": {
@@ -107,8 +101,7 @@
     "highCut": 200,
     "pan": 0.5,
     "volume": 0.6,
-    "wetDry": 0.0,
-    "reverb": 0.2
+    "wetDry": 0.0
   },
 
   "bell": {
@@ -123,8 +116,7 @@
     "highCut": 200,
     "pan": 0.5,
     "volume": 0.6,
-    "wetDry": 0.0,
-    "reverb": 0.3
+    "wetDry": 0.0
   },
 
   "galactic": {
@@ -139,8 +131,7 @@
     "highCut": 100,
     "pan": 0.5,
     "volume": 0.55,
-    "wetDry": 0.0,
-    "reverb": 0.4
+    "wetDry": 0.0
   },
 
   "orchestra": {
@@ -155,7 +146,6 @@
     "highCut": 120,
     "pan": 0.5,
     "volume": 0.6,
-    "wetDry": 0.0,
-    "reverb": 0.4
+    "wetDry": 0.0
   }
 }
