@@ -28,9 +28,16 @@ AudioConnection patchCord8(voice4, 1, mixerR, 3);
 AudioConnection patchCordOutL(mixerL, 0, audioOut, 0);
 AudioConnection patchCordOutR(mixerR, 0, audioOut, 1);
 
+float masterVolume = 1.0f;
+float baseVibDepth = 0.0f;
+float baseVibRate  = 5.0f;
+
 // ================= POLYPHONIE =================
 synth* voices[4] = { &voice1, &voice2, &voice3, &voice4 };
 int voiceNote[4] = { -1, -1, -1, -1 };
+int voiceAge[4]  = {  0,  0,  0,  0 };
+int globalAge = 0;
+
 
 // ================= SETUP =================
 void setup() {
@@ -58,12 +65,17 @@ void loop() {
   // ===== MIDI =====
   while (usbMIDI.read()) {
     byte type = usbMIDI.getType();
+    Serial.println(usbMIDI.getData2());
 
     if (type == usbMIDI.NoteOn && usbMIDI.getData2() > 0) {
       noteOn(usbMIDI.getData1(), usbMIDI.getData2());
-    } else if (type == usbMIDI.NoteOff || 
+    } 
+    else if (type == usbMIDI.NoteOff || 
               (type == usbMIDI.NoteOn && usbMIDI.getData2() == 0)) {
       noteOff(usbMIDI.getData1());
+    }
+    else if (type == usbMIDI.ControlChange && usbMIDI.getData1() == 1) {
+      applyMusicalVibrato(usbMIDI.getData2());
     }
   }
 
@@ -76,31 +88,33 @@ void loop() {
 
 // ================= NOTE ON =================
 void noteOn(int midiNote, int velocity) {
-  // Conversion vélocité 0-127 -> 0.0-1.0
-  float amp = velocity / 127.0;
+  float amp = (velocity / 127.0) * masterVolume;
   float frequency = 440.0 * pow(2.0, (midiNote - 69) / 12.0);
 
   for (int i = 0; i < 4; i++) {
     if (voiceNote[i] == -1) {
       voiceNote[i] = midiNote;
+      voiceAge[i]  = ++globalAge;
 
       voices[i]->setParamValue("/synth/freq", frequency);
-
-      // Volume selon vélocité
       voices[i]->setParamValue("/synth/volume", amp);
-
-      // L’attaque est proportionnelle à la vélocité
       voices[i]->setParamValue("/synth/strike", amp);
 
       return;
     }
   }
 
-  // Si toutes les voix sont occupées, écrase la première
-  voiceNote[0] = midiNote;
-  voices[0]->setParamValue("/synth/freq", frequency);
-  voices[0]->setParamValue("/synth/volume", amp);
-  voices[0]->setParamValue("/synth/strike", amp);
+  int oldest = 0;
+  for (int i = 1; i < 4; i++) {
+    if (voiceAge[i] < voiceAge[oldest]) oldest = i;
+  }
+
+  voiceNote[oldest] = midiNote;
+  voiceAge[oldest]  = ++globalAge;
+
+  voices[oldest]->setParamValue("/synth/freq", frequency);
+  voices[oldest]->setParamValue("/synth/volume", amp);
+  voices[oldest]->setParamValue("/synth/strike", amp);
 }
 
 // ================= NOTE OFF =================
@@ -109,6 +123,7 @@ void noteOff(int midiNote) {
     if (voiceNote[i] == midiNote) {
       voices[i]->setParamValue("/synth/strike", 0.0f);
       voiceNote[i] = -1;
+      voiceAge[i]  =  0;
       return;
     }
   }
@@ -126,7 +141,7 @@ void adjustParameter(String msg) {
 
   for (int i = 0; i < 4; i++) {
     if (param == "volume")
-      voices[i]->setParamValue("/synth/volume", value);
+      masterVolume = value;
     else if (param == "mode")
       voices[i]->setParamValue("/synth/mode", value);
     else if (param == "attack")
@@ -137,19 +152,37 @@ void adjustParameter(String msg) {
       voices[i]->setParamValue("ADSR/Sustain", value);
     else if (param == "release")
       voices[i]->setParamValue("ADSR/Release", value);
-    else if (param == "vibRate")
+    else if (param == "vibRate"){
       voices[i]->setParamValue("Modulation/VibratoRate", value);
-    else if (param == "vibDepth")
+      baseVibRate = value;
+    }
+    else if (param == "vibDepth"){
       voices[i]->setParamValue("Modulation/VibratoDepth", value);
+      baseVibDepth = value;
+    }
     else if (param == "lowCut")
       voices[i]->setParamValue("Filter/Lowpass", value);
     else if (param == "highCut")
       voices[i]->setParamValue("Filter/Highpass", value);
     else if (param == "pan")
       voices[i]->setParamValue("Spatial/Pan", value);
-    else if (param == "wetDry")
-      voices[i]->setParamValue("FX/WetDry", value);
-    else if (param == "reverb")
-      voices[i]->setParamValue("FX/ReverbAmount", value);
   }
+}
+
+void applyMusicalVibrato(byte ccValue)
+{
+    float x = ccValue / 127.0f;
+    float curve = x * x;
+
+
+    float addDepth = 0.025f * curve;
+    float addRate  = 1 * curve;
+
+    float finalDepth = baseVibDepth + addDepth;
+    float finalRate  = baseVibRate  + addRate;
+
+    for (int i = 0; i < 4; i++) {
+        voices[i]->setParamValue("Modulation/VibratoDepth", finalDepth);
+        voices[i]->setParamValue("Modulation/VibratoRate", finalRate);
+    }
 }
