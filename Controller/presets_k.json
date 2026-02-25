@@ -1,0 +1,161 @@
+{
+  "supersaw": {
+    "mode": 0,
+    "attack": 0.02,
+    "decay": 0.3,
+    "sustain": 0.7,
+    "release": 0.4,
+    "vibRate": 5,
+    "vibDepth": 0.002,
+    "lowCut": 14000,
+    "highCut": 100,
+    "pan": 0.5,
+    "volume": 0.6,
+    "wetDry": 0.0,
+    "reverb": 0.3
+  },
+
+  "celestial": {
+    "mode": 1,
+    "attack": 0.8,
+    "decay": 1.2,
+    "sustain": 0.6,
+    "release": 1.5,
+    "vibRate": 3,
+    "vibDepth": 0.001,
+    "lowCut": 9000,
+    "highCut": 80,
+    "pan": 0.5,
+    "volume": 0.5,
+    "wetDry": 0.0,
+    "reverb": 0.4
+  },
+
+  "cyberbass": {
+    "mode": 2,
+    "attack": 0.005,
+    "decay": 0.15,
+    "sustain": 0.8,
+    "release": 0.15,
+    "vibRate": 0.5,
+    "vibDepth": 0.0005,
+    "lowCut": 5000,
+    "highCut": 40,
+    "pan": 0.5,
+    "volume": 0.7,
+    "wetDry": 0.0,
+    "reverb": 0.2
+  },
+
+  "crystal": {
+    "mode": 3,
+    "attack": 0.01,
+    "decay": 0.6,
+    "sustain": 0.3,
+    "release": 1.2,
+    "vibRate": 6,
+    "vibDepth": 0.001,
+    "lowCut": 16000,
+    "highCut": 120,
+    "pan": 0.5,
+    "volume": 0.55,
+    "wetDry": 0.0,
+    "reverb": 0.3
+  },
+
+  "vaporwave": {
+    "mode": 4,
+    "attack": 0.5,
+    "decay": 0.8,
+    "sustain": 0.6,
+    "release": 1.0,
+    "vibRate": 2,
+    "vibDepth": 0.003,
+    "lowCut": 7000,
+    "highCut": 150,
+    "pan": 0.5,
+    "volume": 0.5,
+    "wetDry": 0.0,
+    "reverb": 0.5
+  },
+
+  "abyss": {
+    "mode": 5,
+    "attack": 1.2,
+    "decay": 1.5,
+    "sustain": 0.7,
+    "release": 2.0,
+    "vibRate": 1.5,
+    "vibDepth": 0.001,
+    "lowCut": 6000,
+    "highCut": 50,
+    "pan": 0.5,
+    "volume": 0.5,
+    "wetDry": 0.0,
+    "reverb": 0.4
+  },
+
+  "koto": {
+    "mode": 6,
+    "attack": 0.001,
+    "decay": 0.3,
+    "sustain": 0.2,
+    "release": 0.2,
+    "vibRate": 0.0,
+    "vibDepth": 0.0,
+    "lowCut": 12000,
+    "highCut": 200,
+    "pan": 0.5,
+    "volume": 0.6,
+    "wetDry": 0.0,
+    "reverb": 0.2
+  },
+
+  "bell": {
+    "mode": 7,
+    "attack": 0.001,
+    "decay": 1.5,
+    "sustain": 0.0,
+    "release": 2.5,
+    "vibRate": 0.0,
+    "vibDepth": 0.0,
+    "lowCut": 18000,
+    "highCut": 200,
+    "pan": 0.5,
+    "volume": 0.6,
+    "wetDry": 0.0,
+    "reverb": 0.3
+  },
+
+  "galactic": {
+    "mode": 8,
+    "attack": 0.3,
+    "decay": 0.6,
+    "sustain": 0.7,
+    "release": 1.2,
+    "vibRate": 4,
+    "vibDepth": 0.004,
+    "lowCut": 10000,
+    "highCut": 100,
+    "pan": 0.5,
+    "volume": 0.55,
+    "wetDry": 0.0,
+    "reverb": 0.4
+  },
+
+  "orchestra": {
+    "mode": 9,
+    "attack": 0.4,
+    "decay": 0.8,
+    "sustain": 0.6,
+    "release": 1.4,
+    "vibRate": 3,
+    "vibDepth": 0.0015,
+    "lowCut": 11000,
+    "highCut": 120,
+    "pan": 0.5,
+    "volume": 0.6,
+    "wetDry": 0.0,
+    "reverb": 0.4
+  }
+}
