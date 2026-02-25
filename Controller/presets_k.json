@@ -10,8 +10,7 @@
     "lowCut": 14000,
     "highCut": 100,
     "pan": 0.5,
-    "volume": 0.6,
-    "wetDry": 0.0
+    "volume": 0.6
   },
 
   "celestial": {
@@ -25,8 +24,7 @@
     "lowCut": 9000,
     "highCut": 80,
     "pan": 0.5,
-    "volume": 0.5,
-    "wetDry": 0.0
+    "volume": 0.5
   },
 
   "cyberbass": {
@@ -40,8 +38,7 @@
     "lowCut": 5000,
     "highCut": 40,
     "pan": 0.5,
-    "volume": 0.7,
-    "wetDry": 0.0
+    "volume": 0.7
   },
 
   "crystal": {
@@ -55,8 +52,7 @@
     "lowCut": 16000,
     "highCut": 120,
     "pan": 0.5,
-    "volume": 0.55,
-    "wetDry": 0.0
+    "volume": 0.55
   },
 
   "vaporwave": {
@@ -70,8 +66,7 @@
     "lowCut": 7000,
     "highCut": 150,
     "pan": 0.5,
-    "volume": 0.5,
-    "wetDry": 0.0
+    "volume": 0.5
   },
 
   "abyss": {
@@ -85,8 +80,7 @@
     "lowCut": 6000,
     "highCut": 50,
     "pan": 0.5,
-    "volume": 0.5,
-    "wetDry": 0.0
+    "volume": 0.5
   },
 
   "koto": {
@@ -100,8 +94,7 @@
     "lowCut": 12000,
     "highCut": 200,
     "pan": 0.5,
-    "volume": 0.6,
-    "wetDry": 0.0
+    "volume": 0.6
   },
 
   "bell": {
@@ -115,8 +108,7 @@
     "lowCut": 18000,
     "highCut": 200,
     "pan": 0.5,
-    "volume": 0.6,
-    "wetDry": 0.0
+    "volume": 0.6
   },
 
   "galactic": {
@@ -130,8 +122,7 @@
     "lowCut": 10000,
     "highCut": 100,
     "pan": 0.5,
-    "volume": 0.55,
-    "wetDry": 0.0
+    "volume": 0.55
   },
 
   "orchestra": {
@@ -145,7 +136,6 @@
     "lowCut": 11000,
     "highCut": 120,
     "pan": 0.5,
-    "volume": 0.6,
-    "wetDry": 0.0
+    "volume": 0.6
   }
 }
