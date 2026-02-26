@@ -1,141 +1,265 @@
 {
-  "supersaw": {
-    "mode": 0,
-    "attack": 0.02,
-    "decay": 0.3,
-    "sustain": 0.7,
-    "release": 0.4,
-    "vibRate": 5,
-    "vibDepth": 0.002,
-    "lowCut": 14000,
-    "highCut": 100,
-    "pan": 0.5,
-    "volume": 0.6
-  },
+  "presets": [
 
-  "celestial": {
-    "mode": 1,
-    "attack": 0.8,
-    "decay": 1.2,
-    "sustain": 0.6,
-    "release": 1.5,
-    "vibRate": 3,
-    "vibDepth": 0.001,
-    "lowCut": 9000,
-    "highCut": 80,
-    "pan": 0.5,
-    "volume": 0.5
-  },
+    {
+      "name": "SuperSaw",
+      "mode": 0,
+      "Attack": 0.02,
+      "Decay": 0.3,
+      "Sustain": 0.7,
+      "Release": 0.4,
+      "Lowpass": 14000,
+      "Highpass": 100,
+      "VibratoRate": 5.0,
+      "VibratoDepth": 0.002
+    },
 
-  "cyberbass": {
-    "mode": 2,
-    "attack": 0.005,
-    "decay": 0.15,
-    "sustain": 0.8,
-    "release": 0.15,
-    "vibRate": 0.5,
-    "vibDepth": 0.0005,
-    "lowCut": 5000,
-    "highCut": 40,
-    "pan": 0.5,
-    "volume": 0.7
-  },
+    {
+      "name": "Celestial Pad",
+      "mode": 1,
+      "Attack": 0.8,
+      "Decay": 1.2,
+      "Sustain": 0.6,
+      "Release": 1.5,
+      "Lowpass": 9000,
+      "Highpass": 80,
+      "VibratoRate": 3.0,
+      "VibratoDepth": 0.001
+    },
 
-  "crystal": {
-    "mode": 3,
-    "attack": 0.01,
-    "decay": 0.6,
-    "sustain": 0.3,
-    "release": 1.2,
-    "vibRate": 6,
-    "vibDepth": 0.001,
-    "lowCut": 16000,
-    "highCut": 120,
-    "pan": 0.5,
-    "volume": 0.55
-  },
+    {
+      "name": "Cyber Bass",
+      "mode": 2,
+      "Attack": 0.005,
+      "Decay": 0.15,
+      "Sustain": 0.8,
+      "Release": 0.15,
+      "Lowpass": 5000,
+      "Highpass": 40,
+      "VibratoRate": 0.5,
+      "VibratoDepth": 0.0005
+    },
 
-  "vaporwave": {
-    "mode": 4,
-    "attack": 0.5,
-    "decay": 0.8,
-    "sustain": 0.6,
-    "release": 1.0,
-    "vibRate": 2,
-    "vibDepth": 0.003,
-    "lowCut": 7000,
-    "highCut": 150,
-    "pan": 0.5,
-    "volume": 0.5
-  },
+    {
+      "name": "Crystal FM",
+      "mode": 3,
+      "Attack": 0.01,
+      "Decay": 0.6,
+      "Sustain": 0.3,
+      "Release": 1.2,
+      "Lowpass": 16000,
+      "Highpass": 120,
+      "VibratoRate": 6.0,
+      "VibratoDepth": 0.001
+    },
 
-  "abyss": {
-    "mode": 5,
-    "attack": 1.2,
-    "decay": 1.5,
-    "sustain": 0.7,
-    "release": 2.0,
-    "vibRate": 1.5,
-    "vibDepth": 0.001,
-    "lowCut": 6000,
-    "highCut": 50,
-    "pan": 0.5,
-    "volume": 0.5
-  },
+    {
+      "name": "Vapor Dream",
+      "mode": 4,
+      "Attack": 0.5,
+      "Decay": 0.8,
+      "Sustain": 0.6,
+      "Release": 1.0,
+      "Lowpass": 7000,
+      "Highpass": 150,
+      "VibratoRate": 2.0,
+      "VibratoDepth": 0.003
+    },
 
-  "koto": {
-    "mode": 6,
-    "attack": 0.001,
-    "decay": 0.3,
-    "sustain": 0.2,
-    "release": 0.2,
-    "vibRate": 0.0,
-    "vibDepth": 0.0,
-    "lowCut": 12000,
-    "highCut": 200,
-    "pan": 0.5,
-    "volume": 0.6
-  },
+    {
+      "name": "Dark Abyss",
+      "mode": 5,
+      "Attack": 1.2,
+      "Decay": 1.5,
+      "Sustain": 0.7,
+      "Release": 2.0,
+      "Lowpass": 6000,
+      "Highpass": 50,
+      "VibratoRate": 1.5,
+      "VibratoDepth": 0.001
+    },
 
-  "bell": {
-    "mode": 7,
-    "attack": 0.001,
-    "decay": 1.5,
-    "sustain": 0.0,
-    "release": 2.5,
-    "vibRate": 0.0,
-    "vibDepth": 0.0,
-    "lowCut": 18000,
-    "highCut": 200,
-    "pan": 0.5,
-    "volume": 0.6
-  },
+    {
+      "name": "Koto Pluck",
+      "mode": 6,
+      "Attack": 0.001,
+      "Decay": 0.3,
+      "Sustain": 0.2,
+      "Release": 0.2,
+      "Lowpass": 12000,
+      "Highpass": 200,
+      "VibratoRate": 0.0,
+      "VibratoDepth": 0.0
+    },
 
-  "galactic": {
-    "mode": 8,
-    "attack": 0.3,
-    "decay": 0.6,
-    "sustain": 0.7,
-    "release": 1.2,
-    "vibRate": 4,
-    "vibDepth": 0.004,
-    "lowCut": 10000,
-    "highCut": 100,
-    "pan": 0.5,
-    "volume": 0.55
-  },
+    {
+      "name": "Bell Tone",
+      "mode": 7,
+      "Attack": 0.001,
+      "Decay": 1.5,
+      "Sustain": 0.0,
+      "Release": 2.5,
+      "Lowpass": 18000,
+      "Highpass": 200,
+      "VibratoRate": 0.0,
+      "VibratoDepth": 0.0
+    },
 
-  "orchestra": {
-    "mode": 9,
-    "attack": 0.4,
-    "decay": 0.8,
-    "sustain": 0.6,
-    "release": 1.4,
-    "vibRate": 3,
-    "vibDepth": 0.0015,
-    "lowCut": 11000,
-    "highCut": 120,
-    "pan": 0.5,
-    "volume": 0.6
-  }
+    {
+      "name": "Galactic Texture",
+      "mode": 8,
+      "Attack": 0.3,
+      "Decay": 0.6,
+      "Sustain": 0.7,
+      "Release": 1.2,
+      "Lowpass": 10000,
+      "Highpass": 100,
+      "VibratoRate": 4.0,
+      "VibratoDepth": 0.004
+    },
+
+    {
+      "name": "Orchestra Ensemble",
+      "mode": 9,
+      "Attack": 0.4,
+      "Decay": 0.8,
+      "Sustain": 0.6,
+      "Release": 1.4,
+      "Lowpass": 11000,
+      "Highpass": 120,
+      "VibratoRate": 3.0,
+      "VibratoDepth": 0.0015
+    },
+
+    {
+      "name": "Analog Lead",
+      "mode": 10,
+      "Attack": 0.01,
+      "Decay": 0.25,
+      "Sustain": 0.85,
+      "Release": 0.3,
+      "Lowpass": 15000,
+      "Highpass": 80,
+      "VibratoRate": 5.0,
+      "VibratoDepth": 0.0025
+    },
+
+    {
+      "name": "Warm Pad",
+      "mode": 11,
+      "Attack": 1.4,
+      "Decay": 1.2,
+      "Sustain": 0.75,
+      "Release": 2.2,
+      "Lowpass": 7500,
+      "Highpass": 60,
+      "VibratoRate": 1.8,
+      "VibratoDepth": 0.001
+    },
+
+    {
+      "name": "Bright Pluck",
+      "mode": 12,
+      "Attack": 0.001,
+      "Decay": 0.22,
+      "Sustain": 0.05,
+      "Release": 0.15,
+      "Lowpass": 15000,
+      "Highpass": 300,
+      "VibratoRate": 0.0,
+      "VibratoDepth": 0.0
+    },
+
+    {
+      "name": "Electric Piano",
+      "mode": 13,
+      "Attack": 0.005,
+      "Decay": 0.6,
+      "Sustain": 0.4,
+      "Release": 1.0,
+      "Lowpass": 12000,
+      "Highpass": 100,
+      "VibratoRate": 0.6,
+      "VibratoDepth": 0.0005
+    },
+
+    {
+      "name": "Soft Strings",
+      "mode": 14,
+      "Attack": 0.7,
+      "Decay": 1.0,
+      "Sustain": 0.8,
+      "Release": 1.6,
+      "Lowpass": 9500,
+      "Highpass": 80,
+      "VibratoRate": 3.2,
+      "VibratoDepth": 0.0012
+    },
+
+    {
+      "name": "Space Bass",
+      "mode": 15,
+      "Attack": 0.002,
+      "Decay": 0.18,
+      "Sustain": 0.9,
+      "Release": 0.2,
+      "Lowpass": 4000,
+      "Highpass": 35,
+      "VibratoRate": 0.3,
+      "VibratoDepth": 0.0004
+    },
+
+    {
+      "name": "Glass Harmonics",
+      "mode": 16,
+      "Attack": 0.01,
+      "Decay": 0.9,
+      "Sustain": 0.15,
+      "Release": 1.8,
+      "Lowpass": 17000,
+      "Highpass": 220,
+      "VibratoRate": 5.0,
+      "VibratoDepth": 0.001
+    },
+
+    {
+      "name": "Dream Choir",
+      "mode": 17,
+      "Attack": 1.1,
+      "Decay": 1.4,
+      "Sustain": 0.85,
+      "Release": 2.4,
+      "Lowpass": 8500,
+      "Highpass": 70,
+      "VibratoRate": 2.5,
+      "VibratoDepth": 0.001
+    },
+
+    {
+      "name": "Digital Arp",
+      "mode": 18,
+      "Attack": 0.001,
+      "Decay": 0.35,
+      "Sustain": 0.6,
+      "Release": 0.25,
+      "Lowpass": 13500,
+      "Highpass": 150,
+      "VibratoRate": 0.0,
+      "VibratoDepth": 0.0
+    },
+
+    {
+      "name": "Rich Organ",
+      "mode": 19,
+      "Attack": 0.02,
+      "Decay": 0.5,
+      "Sustain": 0.95,
+      "Release": 0.7,
+      "Lowpass": 15000,
+      "Highpass": 90,
+      "VibratoRate": 4.0,
+      "VibratoDepth": 0.001
+    }
+
+  ]
 }
