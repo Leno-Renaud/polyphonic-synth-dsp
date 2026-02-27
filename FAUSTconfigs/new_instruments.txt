@@ -7,7 +7,7 @@ import("stdfaust.lib");
 freq   = hslider("freq", 440, 27.5, 4186, 0.01);
 gain   = hslider("volume", 0.5, 0, 1, 0.001);
 strike = button("strike");
-mode   = hslider("mode", 0, 0, 9, 1);
+mode   = hslider("mode", 0, 0, 11, 1);  
 
 // =======================
 // OPTIONS SYNTHÉ
@@ -24,13 +24,9 @@ vibRate  = hslider("Modulation/VibratoRate", 5, 0.1, 20, 0.1);
 vibDepth = hslider("Modulation/VibratoDepth", 0.003, 0, 0.02, 0.0001);
 
 // Filtres
-// NOTE : lowCut à 10000 par défaut laisse passer le son. S'il est à 0, pas de son.
 lowCut  = hslider("Filter/Lowpass", 10000, 200, 20000, 1);
 highCut = hslider("Filter/Highpass", 20, 20, 2000, 1);
 
-// Reverb + WetDry (Non utilisés dans le process pour l'instant pour sécurité)
-wet = hslider("FX/WetDry", 0.0, 0, 1, 0.01);
-reverbAmt = hslider("FX/ReverbAmount", 0.3, 0, 0.9, 0.01);
 
 // Pan
 pan = hslider("Spatial/Pan", 0.5, 0, 1, 0.01);
@@ -38,113 +34,71 @@ pan = hslider("Spatial/Pan", 0.5, 0, 1, 0.01);
 // =======================
 // ENVELOPPE
 // =======================
-
+// strike enter adsr (if 1 dcp start, si 0 on release)
 env = strike : en.adsr(attack, decay, sustain, release);
 
 // =======================
 // VIBRATO
 // =======================
-
+//osc lente pour near 1
 vibrato = freq * (1 + vibDepth * os.osc(vibRate));
 
 // =======================
-// NOUVEAUX INSTRUMENTS
+// MODES
 // =======================
 
-// 0. SUPERSAW
-supersaw = 
-  ( os.sawtooth(vibrato) * 0.5
-  + os.sawtooth(vibrato * 1.01) * 0.25
-  + os.sawtooth(vibrato * 0.99) * 0.25
-  ) * env;
+supersaw = ( os.sawtooth(vibrato)*0.5 + os.sawtooth(vibrato*1.01)*0.25 + os.sawtooth(vibrato*0.99)*0.25 ) * env;
 
-// 1. CELESTIAL
-celestial = 
-  ( os.osc(vibrato) * 0.4
-  + os.osc(vibrato * 2.0) * 0.3
-  + os.triangle(vibrato * 4.0) * 0.2
-  + os.osc(vibrato * 8.0) * 0.1
-  ) * env;
+celestial = ( os.osc(vibrato)*0.4 + os.osc(vibrato*2.0)*0.3 + os.triangle(vibrato*4.0)*0.2 + os.osc(vibrato*8.0)*0.1 ) * env;
 
-// 2. CYBER BASS
-cyberbass = 
-  ( os.osc(freq * 0.5 + os.osc(freq) * 200) * 0.8 
-  + os.sawtooth(freq * 0.505) * 0.2 
-  ) * env;
+crystal = ( os.osc(freq + os.osc(freq*4.0)*(freq*0.5)) ) * env;
 
-// 3. CRYSTAL
-crystal = 
-  ( os.osc(freq + os.osc(freq * 4.0) * (freq * 0.5)) 
-  ) * env;
+bell = ( os.osc(freq)*0.8 + os.osc(freq*2.7)*0.35 + os.osc(freq*5.1)*0.20 ) * env;
 
-// 4. VAPORWAVE
-vapor = 
-  ( os.triangle(vibrato) * 0.6
-  + os.triangle(vibrato * 1.02) * 0.3
-  + no.noise * 0.05 
-  ) * env;
+warmPad = ( os.triangle(vibrato)*0.6 + os.osc(vibrato*0.5)*0.3 + os.osc(vibrato*2.0)*0.1 ) * env;
 
-// 5. ABYSS
-abyss = 
-  ( os.square(vibrato * 0.5) * 0.4
-  + os.osc(vibrato * 0.25) * 0.5
-  + os.sawtooth(vibrato * 1.01) * 0.1
-  ) * env;
+brightPluck = ( os.pulsetrain(freq,0.3)*0.7 + os.sawtooth(freq*2.0)*0.3 ) * env;
 
-// 6. KOTO
-koto = 
-  ( os.sawtooth(freq) * 0.5
-  + os.pulsetrain(freq, 0.2) * 0.5
-  ) * env;
+epiano = ( os.osc(freq) + os.osc(freq*2.0)*0.4 + os.osc(freq*3.0)*0.2 ) * env;
 
-// 7. BELL
-bell = 
-  ( os.osc(freq)*0.8 
-  + os.osc(freq*2.7)*0.35 
-  + os.osc(freq*5.1)*0.20 
-  ) * env;
+softStrings = ( os.sawtooth(vibrato)*0.5 + os.sawtooth(vibrato*1.01)*0.3 + os.osc(vibrato*0.5)*0.2 ) * env;
 
-// 8. GALACTIC
-galactic = 
-  ( os.square(vibrato) * os.osc(vibrato * 0.5) 
-  ) * env;
+spaceBass = ( os.square(freq*0.5)*0.7 + os.osc(freq*1.01)*0.3 ) * env;
 
-// 9. ORCHESTRA
-orchestra = 
-  ( os.sawtooth(freq) * 0.3
-  + os.sawtooth(freq * 1.005) * 0.2
-  + os.sawtooth(freq * 0.995) * 0.2
-  + os.osc(freq * 2.0) * 0.1
-  + os.osc(freq * 0.5) * 0.2
-  ) * env;
+glass = ( os.osc(freq) + os.osc(freq*2.5)*0.5 + os.osc(freq*4.0)*0.3 ) * env;
+
+dreamChoir = ( os.osc(vibrato)*0.6 + os.osc(vibrato*1.02)*0.4 ) * env; 
+
+richOrgan = ( os.osc(freq) + os.osc(freq*2.0)*0.5 + os.osc(freq*4.0)*0.3 ) * env;
+
 
 // =======================
-// SELECTEUR
+// SELECTEUR 0–19
 // =======================
 
 synth =
-  (mode == 0) * supersaw   +
-  (mode == 1) * celestial  +
-  (mode == 2) * cyberbass  +
-  (mode == 3) * crystal    +
-  (mode == 4) * vapor      +
-  (mode == 5) * abyss      +
-  (mode == 6) * koto       +
-  (mode == 7) * bell       +
-  (mode == 8) * galactic   +
-  (mode == 9) * orchestra  ;
+  (mode == 0)*supersaw +
+  (mode == 1)*celestial +
+  (mode == 2)*crystal +
+  (mode == 3)*bell +
+  (mode == 4)*warmPad +
+  (mode == 5)*brightPluck +
+  (mode == 6)*epiano +
+  (mode == 7)*softStrings +
+  (mode == 8)*spaceBass +
+  (mode == 9)*glass +
+  (mode == 10)*dreamChoir +
+  (mode == 11)*richOrgan;
+
 
 // =======================
-// CHAÎNE EFFETS STABLE
+// CHAÎNE EFFETS
 // =======================
 
-// Filtres globaux
 filtered = synth : fi.lowpass(2, lowCut) : fi.highpass(1, highCut);
 
-// Pas de reverb pour l'instant
 mix = filtered;
 
-// Pan stéréo simple
 left  = mix * gain * (1 - pan);
 right = mix * gain * pan;
 
