@@ -27,11 +27,10 @@ vibDepth = hslider("Modulation/VibratoDepth", 0.003, 0, 0.02, 0.0001);
 lowCut  = hslider("Filter/Lowpass", 10000, 200, 20000, 1);
 highCut = hslider("Filter/Highpass", 20, 20, 2000, 1);
 
-
 // Pan
 pan = hslider("Spatial/Pan", 0.5, 0, 1, 0.01);
 
-// =======================
+// =====================
 // ENVELOPPE
 // =======================
 // strike enter adsr (if 1 dcp start, si 0 on release)
