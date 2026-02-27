@@ -51,8 +51,8 @@ void setup() {
   sgtl5000.volume(0.5);
 
   for (int i = 0; i < 4; i++) {
-    mixerL.gain(i, 0.25);
-    mixerR.gain(i, 0.25);
+    mixerL.gain(i, 0.5);
+    mixerR.gain(i, 0.5);
 
     voices[i]->setParamValue("/synth/volume", 0.3f);
     voices[i]->setParamValue("/synth/mode", 1.0f);
@@ -88,7 +88,7 @@ void loop() {
 
 // ================= NOTE ON =================
 void noteOn(int midiNote, int velocity) {
-  float amp = (velocity / 127.0) * masterVolume;
+  float amp = (velocity / 127.0) * masterVolume*1.5;
   float frequency = 440.0 * pow(2.0, (midiNote - 69) / 12.0);
 
   for (int i = 0; i < 4; i++) {
